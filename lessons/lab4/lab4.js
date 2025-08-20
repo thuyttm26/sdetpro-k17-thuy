@@ -10,11 +10,7 @@ let account1 = JSON.parse(JSON.stringify(baseAccount));
 account1.accountNumber = "9704050001234568";
 account1.accountName = "Tun";
 
-let account2 = JSON.parse(JSON.stringify(baseAccount));
-account1.accountNumber = "9704050001234570";
-account1.accountName = "Ty";
-
-let accounts = [baseAccount, account1, account2];
+let accounts = [baseAccount, account1];
 
 let choice;
 do {
@@ -47,42 +43,50 @@ function showMenu() {
 }
 
 function findAccountByNumber(accounts) {
-  let userInputAccountNumber = readline.question(
-    `Please input your account number: `
-  );
-  let findAccount = accounts.find(function (account) {
-    return account.accountNumber === userInputAccountNumber;
-  });
-  return findAccount; // trả về tài khoản nếu tìm thấy, hoặc undefined nếu không
+  let loginAttemp = 0;
+  while (loginAttemp < 3) {
+    let userInputAccountNumber = readline.question(
+      `Please input your account number: `
+    );
+    let findAccount = accounts.find(function (account) {
+      return account.accountNumber === userInputAccountNumber;
+    });
+    if (findAccount) {
+      return findAccount;
+    } else {
+      console.log(`Account not found!`);
+      loginAttemp++;
+    }
+  }
+  console.log("❌ Too many login attempts. Exiting...");
+  process.exit(); // Exit the entire program
 }
 
 function handleFindAccount(accounts) {
   let findAccount = findAccountByNumber(accounts);
-  if (findAccount) {
-    console.log(`Account Name: ${findAccount.accountName}`);
-    console.log(`Balance: ${findAccount.balance}`);
-  } else {
-    console.log("Account not found.");
-  }
+  console.log(`Account Name: ${findAccount.accountName}`);
+  console.log(`Balance: ${findAccount.balance}`);
 }
 
 function handleWithdraw(accounts) {
   let findAccount = findAccountByNumber(accounts);
-  if (!findAccount) {
-    console.log("Account not found");
-    return;
-  }
-  let amount = Number(
-    readline.question(`Please input the amount to withdraw: `)
-  );
-  if (isNaN(amount) || amount <= 0) {
-    console.log("Invalid amount. Please enter a number greater than 0.");
-    return;
-  }
-  if (amount > findAccount.balance) {
-    console.log(`Not enough money to withdraw!`);
-  } else {
-    findAccount.balance -= amount;
-    console.log(`Withdraw successful. New balance: ${findAccount.balance}`);
+  let updateBalancedAttempts = 0;
+  while (updateBalancedAttempts < 3) {
+    let amount = Number(readline.question(`Please input the amount:`));
+    if (isNaN(amount) || amount <= 0) {
+      console.log("Invalid amount. Please enter a number greater than 0");
+      updateBalancedAttempts++;
+    } else if (amount > findAccount.balance) {
+      console.log("Invalid amount. Not enough money!");
+      updateBalancedAttempts++;
+    } else {
+      findAccount.balance -= amount;
+      console.log(
+        `✅ Withdraw successful. New balance: ${findAccount.balance}`
+      );
+      return;
+    }
+    console.log("❌ Too many failed withdrawal attempts. Exiting...");
+    process.exit();
   }
 }

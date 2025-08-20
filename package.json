@@ -1,0 +1,23 @@
+{
+  "name": "sdetpro-k17-thuy-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thuyttm26/sdetpro-k17-thuy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thuyttm26/sdetpro-k17-thuy/issues"
+  },
+  "homepage": "https://github.com/thuyttm26/sdetpro-k17-thuy#readme",
+  "description": "",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}

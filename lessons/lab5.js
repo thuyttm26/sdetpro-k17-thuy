@@ -1,15 +1,25 @@
 const readline = require("readline-sync");
-const myStr = readline.question("Please input desired string: ");
-const strToBeCut = myStr
-  .toLocaleLowerCase("vi-VN")
-  .replace(/[,.?!]/gim, " ")
-  .trim()
-  .split(/\s+/);
-const wordCount = {};
-for (word of strToBeCut) {
-  if (!Object.prototype.hasOwnProperty.call(wordCount, word)) {
-    wordCount[word] = 0;
-  }
-  wordCount[word] += 1;
+const stringInput = getUserInput();
+const individualWord = processInputStr(stringInput);
+const groupdWords = groupWordFromStr(individualWord);
+console.log(groupdWords);
+
+function getUserInput() {
+  return readline.question(`Please input your sentence:`);
 }
-console.log(wordCount);
+
+function processInputStr(stringInput) {
+  return stringInput.replace(/[,.?!]/gim, "").split(/\s+/);
+}
+
+function groupWordFromStr(individualWord) {
+  const wordCount = {};
+  for (const word of individualWord) {
+    if (wordCount[word]) {
+      wordCount[word] = wordCount[word] + 1;
+    } else {
+      wordCount[word] = 1;
+    }
+  }
+  return wordCount;
+}

@@ -18,7 +18,7 @@ if (height <= 0 || isNaN(height) || weight <= 0 || isNaN(weight)) {
   console.log(`your IBM is:: ${ibm.toFixed(1)}`, "so you are Normal weight");
 } else if (ibm <= 29.9) {
   let targetWeight = 24.9 * (height * height);
-  let weightToLose = weight - targetWeight;
+  let weightToLose = Math.abs(targetWeight - weight);
   console.log(`your IBM is: ${ibm.toFixed(1)}`, "so you are Overweight");
   console.log(
     "To reach normal weight with IMB 24.9, you need to lose(kg):",
@@ -26,7 +26,7 @@ if (height <= 0 || isNaN(height) || weight <= 0 || isNaN(weight)) {
   );
 } else {
   let targetWeight = 24.9 * (height * height);
-  let weightToLose = weight - targetWeight;
+  let weightToLose = Math.abs(targetWeight - weight);
   console.log(`your IBM is: ${ibm.toFixed(1)}`, "so you are Obesity");
   console.log(
     "To reach normal weight with IMB 24.9, you need to lose(kg):",
