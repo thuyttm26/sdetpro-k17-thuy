@@ -1,34 +1,86 @@
 const readline = require("readline-sync");
-const userIdInput = Number(readline.question(`Please input user Id: `));
-const postIdInput = Number(readline.question(`Please input Post Id: `));
-const basedUrl = "https://jsonplaceholder.typicode.com/posts";
+const BASE_URL = "https://jsonplaceholder.typicode.com";
+global.fetch = require("node-fetch");
+const USER_ENDPOINT = `${BASE_URL}/users`;
+const POST_ENDPOINT = `${BASE_URL}/posts`;
 
-if (isNaN(userIdInput) || isNaN(postIdInput)) {
-  console.log(`UserId va PostId không hợp lệ!`);
-  process.exit(1);
+app();
+
+function app() {
+  let isPlaying = true;
+  while (isPlaying) {
+    handlePromise();
+    break;
+  }
+
+  function handlePromise() {
+    if (!isPlaying) return;
+    printMenu();
+    getUserOption().then(function (userOption) {
+      switch (userOption) {
+        case 1:
+          return handleGetPostContent();
+        case 2:
+          return handleGetAllPostContent();
+        case 0:
+          isPlaying = false;
+          console.log(`See you again!`);
+        default:
+          console.log(`Nhap sai cu phap!`);
+      }
+    });
+  }
 }
-if (userIdInput <= 0 || postIdInput <= 0) {
-  console.log(`UserId va PostId phải là số!`);
-  process.exit(1);
+
+function printMenu() {
+  console.log(`  1. Get a post content
+    2. Get all post contents
+    0. Exit`);
+}
+async function getUserOption() {
+  const raw = readline.question("Select your option: ");
+  return Number(raw);
 }
 
-test(basedUrl);
+async function getUserInput(question) {
+  return Number(readline.question(question));
+}
 
-async function test(url) {
-  const response = await fetch(url);
-  const posts = await response.json();
-  if (!posts) {
-    console.log(`Không thể lấy dữ liệu từ server!`);
+async function handleGetPostContent() {
+  const userId = await getUserInput(`userId:`);
+  if (userId == null) return;
+  const { hasUser, hasRelatedPosts } = await getAllPostForUser(userId);
+  if (!hasUser) return;
+  if (hasRelatedPosts.length === 0) {
     return;
   }
-  const result = posts.filter(function (post) {
-    return post.userId === userIdInput && post.id === postIdInput;
+  const postId = await getUserInput(`postId:`);
+  if (postId == null) return;
+  const targetPost = hasRelatedPosts.filter(function (post) {
+    return post.id === postId;
   });
-  if (result.length > 0) {
-    console.log("Match post:" + JSON.stringify(result, null, 2));
-  } else {
-    console.log(
-      `Không tìm thấy post cho userId ${userIdInput} và postId ${postIdInput}`
-    );
+  if (!targetPost) {
+    console.log(`post ID ${postId} not found for user ID ${userId}`);
+    return;
   }
+  console.log(targetPost);
+}
+
+async function handleGetAllPostContent() {
+  const userId = await getUserInput(`userId:`);
+  if (userId == null) return;
+  const { hasUser, hasRelatedPosts } = await getAllPostForUser(userId);
+  if (!hasUser) return;
+  console.log(hasRelatedPosts);
+}
+
+async function getAllPostForUser(userId) {
+  const userRes = await fetch(`${USER_ENDPOINT}/${userId}`);
+  if (!userRes.ok) {
+    console.log(`UserID ${userId} not existing!`);
+    return { hasUser: false, hasRelatedPosts: [] };
+  }
+  const postsRes = await fetch(`${POST_ENDPOINT}?userId=${userId}`);
+  const posts = await postsRes.json();
+  return { hasUser: true, hasRelatedPosts: posts };
 }
