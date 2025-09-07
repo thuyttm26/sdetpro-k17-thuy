@@ -30,7 +30,6 @@ async function lab7() {
         console.log(`Post not found!`);
       }
     } else if (choice === 2) {
-      //   const allPosts = await reqHandler.getAllPosts(userId);
       console.log(allPosts);
     } else if (choice === 0) {
       console.log(`Exiting programming..`);
