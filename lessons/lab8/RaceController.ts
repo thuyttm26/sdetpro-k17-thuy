@@ -7,7 +7,7 @@ export default { collectResults, findMaxSpeed, findWinners, printResults };
 function collectResults(animalList: BaseAnimal[]): Attempt[] {
   const results: Attempt[] = [];
   for (const animal of animalList) {
-    results.push({ name: animal.name, speed: animal.getSpeed() });
+    results.push({ name: animal.getName(), speed: animal.getSpeed() });
   }
   return results;
 }

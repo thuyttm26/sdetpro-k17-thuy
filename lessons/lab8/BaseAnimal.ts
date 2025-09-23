@@ -1,6 +1,6 @@
 export default class BaseAnimal {
   protected maxSpeed: number = 0;
-  public name: string = "Animal";
+  protected name: string = "Animal";
 
   constructor(name: string, maxSpeed: number) {
     this.name = name;
@@ -9,7 +9,7 @@ export default class BaseAnimal {
   public getSpeed() {
     return Math.floor(Math.random() * this.maxSpeed + 1);
   }
-  // public getName() {
-  //   return this.name;
-  // }
+  public getName() {
+    return this.name;
+  }
 }
