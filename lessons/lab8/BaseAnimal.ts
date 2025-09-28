@@ -1,15 +1,27 @@
 export default class BaseAnimal {
-  protected maxSpeed: number = 0;
+  protected speed: number = 0;
   protected name: string = "Animal";
 
-  constructor(name: string, maxSpeed: number) {
+  constructor(name: string = "Animal", speed: number = 0) {
     this.name = name;
-    this.maxSpeed = maxSpeed;
+    this.speed = speed;
   }
-  public getSpeed() {
-    return Math.floor(Math.random() * this.maxSpeed + 1);
+
+  protected setSpeed(speed: number) {
+    this.speed = speed;
+  }
+  protected setName(name: string) {
+    this.name = name;
+  }
+
+  public getSpeed(): number {
+    return this.speed;
   }
   public getName() {
     return this.name;
+  }
+  public static generateRandomSpeed(maxSpeed: number): number {
+    if (maxSpeed <= 0) return 0;
+    return Math.floor(Math.random() * maxSpeed) + 1;
   }
 }

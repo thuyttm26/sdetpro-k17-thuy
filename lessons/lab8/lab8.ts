@@ -1,11 +1,10 @@
-import BaseAnimal from "./BaseAnimal";
 import RaceController from "./RaceController";
+import Tiger from "./Tiger";
+import Dog from "./Dog";
+import Horse from "./Horse";
 
-const horse = new BaseAnimal("Horse", 75);
-const tiger = new BaseAnimal("Tiger", 100);
-const dog = new BaseAnimal("Dog", 60);
-
-const results = RaceController.collectResults([horse, tiger, dog]);
+const animals = [new Tiger(), new Dog(), new Horse()];
+const results = RaceController.collectResults(animals);
 const maxSpeed = RaceController.findMaxSpeed(results);
 const winners = RaceController.findWinners(results, maxSpeed);
 

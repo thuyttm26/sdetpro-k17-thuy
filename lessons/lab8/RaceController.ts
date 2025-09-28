@@ -52,7 +52,7 @@ function printResults(
     let names = "";
     for (let index = 0; index < winners.length; index++) {
       if (index > 0) names = names + ", ";
-      names = winners[index] + names;
+      names = winners[index].name + names;
       console.log(
         "Winners are: " + names + " with speed: " + maxSpeed + " km/h"
       );
