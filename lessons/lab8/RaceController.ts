@@ -1,10 +1,10 @@
-import BaseAnimal from "./BaseAnimal";
+import Animal from "./Animal";
 
 type Attempt = { name: string; speed: number };
 
 export default { collectResults, findMaxSpeed, findWinners, printResults };
 
-function collectResults(animalList: BaseAnimal[]): Attempt[] {
+function collectResults(animalList: Animal[]): Attempt[] {
   const results: Attempt[] = [];
   for (const animal of animalList) {
     results.push({ name: animal.getName(), speed: animal.getSpeed() });

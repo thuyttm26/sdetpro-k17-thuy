@@ -1,8 +1,8 @@
-import BaseAnimal from "./BaseAnimal";
+import Animal from "./Animal";
+import { MAX_SPEED } from "./SpeedConstants";
 
-export default class Tiger extends BaseAnimal {
-  private static readonly MAX_SPEED = 100;
-  constructor(name: string = "Tiger") {
-    super(name, BaseAnimal.generateRandomSpeed(Tiger.MAX_SPEED));
+export default class Tiger extends Animal {
+  constructor() {
+    super("Tiger", Math.floor(Math.random() * MAX_SPEED.tiger));
   }
 }
